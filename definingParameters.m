@@ -46,9 +46,6 @@ param.epsilon=zeros(1,numberLayer);
 
 % param.epsilon=[0 0 0 0.1 0.3 0.4 0.4 0.5];
 
-
-
-
 % setting the weights w:
 
 % constant weights I
@@ -62,9 +59,9 @@ param.w=[ones(numberLayer,1) ones(numberLayer,1)];
 % w2=1;
 % scaleW=w1:((w2-w1)/(numberLayer-1)):w2;
 % scaleWrev=w2:-((w2-w1)/(numberLayer-1)):w1;
-% param.w=[scaleW' scaleW'];
-% param.w=[scaleWrev' scaleWrev'];
-% param.w=[scaleW' scaleWrev'];
+% % param.w=[scaleW' scaleW'];
+% % param.w=[scaleWrev' scaleWrev'];
+% % param.w=[scaleW' scaleWrev'];
 % param.w=[scaleWrev' scaleW'];
 
 

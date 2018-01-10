@@ -29,7 +29,7 @@ if videoFlag==1
         plot([ii ii],myLim)
         set(gca,'ylim',myLim)
         title('not zscored')
-        legend({'L1','L2','L3','L4','L5'})
+        xlabel('time [ms]')
 
         subplot(2,2,2)
         cla
@@ -39,15 +39,20 @@ if videoFlag==1
         plot([ii ii],myLim2)
         set(gca,'ylim',myLim2)
         title('zscored')
+        xlabel('time [ms]')
 
         subplot(2,2,3)
         imagesc(eegRandomTrialnew(ii,:))
         set(gca,'clim',myLim2)
         colorbar
+    	xlabel('layers')
+        title('2D representation')
 
         subplot(2,2,4)
         plot(eegRandomTrialnew(ii,:))
         set(gca,'ylim',myLim2)
+    	xlabel('layers')
+        title('1D representation')
         pause(.00001)
     end
 end
@@ -93,6 +98,7 @@ for ii=1:size(avec,2)
     hold on
     plot(times,avec(:,ii));
     title(['IRF - L' int2str(ii)])
+    xlabel('time [ms]')
 end
 
 figure
@@ -106,8 +112,9 @@ for ii=1:size(prediction,3)
     else
         plot((prediction(:,randTrial,ii-1)),'k');
     end
-    title(['L' int2str(ii)])
+    title(['Layer ' int2str(ii)])
     legend('pred','residual','input')
+    xlabel('time [ms]')
     xlim([3900 4300 ])
     
 end

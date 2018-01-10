@@ -27,8 +27,14 @@ figure
 subplot(2,1,1)
 surf(arrangedAvec)
 shading interp; view(0,90); axis tight; colorbar;
+xlabel('time [ms]')
+ylabel('layers')
+title('Looking for travelling waves')
 subplot(2,2,3)
 surf(fx,fy,avecFFT)
+title('2D FFT - zoomed xAxis')
+xlabel('timeFreq')
+ylabel('layersFreq')
 shading interp; view(0,90); axis tight; colorbar;
 set(gca,'xlim',[thX1 thX2],'clim',[min(min(avecFFT)) max(max(avecFFT))],'yscale','lin');
 subplot(2,2,4)
@@ -36,6 +42,9 @@ avecFFT(avecFFT==0)=NaN;
 upperPart=avecFFT(fy>0,(fx>0 & fx<thX2));
 lowerPart=avecFFT(fy<0,(fx>0 & fx<thX2));
 bar([1 2],[mean(upperPart(:)) mean(lowerPart(:))])
+title('Quantifying the waves')
+xlabel('upper right quadrant x>0, y>0 -  lower right quadrant x>0, y<0')
+ylabel('sum of the quadrant')
 
 
 m=8;
@@ -56,6 +65,7 @@ for ii=1:length(x)-1
     surf(x(ii):x(ii+1)-1,1:8,tempAvec)
     shading interp; view(0,90); axis tight; 
     set(gca,'clim',[min(min(tempAvecFFT)) max(max(tempAvec))],'yscale','lin');
+    tempAvecVect(:,:,ii)=tempAvec;
     
     subplot(3,length(x),ii+length(x))
     surf(fx,fy,tempAvecFFT)
@@ -67,8 +77,27 @@ for ii=1:length(x)-1
     upperPart=tempAvecFFT(fy>0,(fx>0 & fx<thX2temp));
     lowerPart=tempAvecFFT(fy<0,(fx>0 & fx<thX2temp));
     bar([1 2],[mean(upperPart(:)) mean(lowerPart(:))])
+    timeVect(ii,:)=[mean(upperPart(:)) mean(lowerPart(:))];
 %     set(gca,'ylim',[-0.05 0.05],'yscale','lin');
 end
+
+figure
+for ii=1:length(x)-1
+    subplot(2,ceil(length(x)/2),ii)
+    surf(x(ii):x(ii+1)-1,1:8,tempAvecVect(:,:,ii))
+    shading interp; view(0,90); axis tight; 
+    set(gca,'clim',[min(min(min(tempAvecVect))) max(max(max(tempAvecVect)))],'yscale','lin');
+    title(['2D maps - timeBin: ' int2str(ii)])
+    xlabel('time [ms]')
+    ylabel('layers')
+    
+end
+subplot(2,ceil(length(x)/2),length(x))
+plot(timeVect)
+title('2D FFT - quantifying')
+legend('upper quadrant','lower quadrant')
+xlabel('time bins')
+ylabel('sum for each quadrant')
 
 end
 
